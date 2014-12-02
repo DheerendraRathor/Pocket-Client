@@ -33,6 +33,7 @@ namespace Pocket_Client
     {
 
       private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+      private readonly ResourceLoader keysLoader = ResourceLoader.GetForCurrentView("Keys");
       private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
       private CancellationTokenSource cts;
         public MainPage()
