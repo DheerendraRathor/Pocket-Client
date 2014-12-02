@@ -1,0 +1,25 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Pocket_Client"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:UI="using:Microsoft.Advertising.Mobile.UI"
+    x:Class="Pocket_Client.MainPage"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Button x:Name="auth_button" Height="60" HorizontalAlignment="Center" Margin="0,300,0,0" VerticalAlignment="Top">
+      <Button.IsEnabled>
+        False
+      </Button.IsEnabled>
+      <Button.Content>
+        Verfying User, Please wait
+      </Button.Content>
+    </Button>
+    <Image Height="133" Margin="70,127,74,0" VerticalAlignment="Top" HorizontalAlignment="Center" Source="Assets/pocket-logo.png"/>
+    <ProgressRing x:Name="progressRing" HorizontalAlignment="Center" Margin="0,452,0,0" VerticalAlignment="Top" Width="160" IsActive="True" Height="77"/>
+  </Grid>
+
+</Page>
