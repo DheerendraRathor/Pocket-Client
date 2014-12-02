@@ -28,7 +28,7 @@
           </ShareTarget>
         </Extension>
         <Extension Category="windows.protocol">
-          <Protocol Name="pctdsr">
+          <Protocol Name="pocket-dsr">
             <DisplayName>Redirecting to pocket client</DisplayName>
           </Protocol>
         </Extension>

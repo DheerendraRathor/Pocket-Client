@@ -32,16 +32,14 @@ namespace Pocket_Client
     public sealed partial class MainPage : Page
     {
 
-      private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
-      private readonly ResourceLoader keysLoader = ResourceLoader.GetForCurrentView("Keys");
-      private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-      private CancellationTokenSource cts;
+        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+        private readonly ResourceLoader keysLoader = ResourceLoader.GetForCurrentView("Keys");
+        private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private CancellationTokenSource cts;
         public MainPage()
         {
-          
-            this.InitializeComponent();
-          
 
+            this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
@@ -50,15 +48,16 @@ namespace Pocket_Client
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-          String request_token = localSettings.Values["request_token"] as String;
-          System.Diagnostics.Debug.WriteLine(request_token);
-          if (request_token == null)
-          {
-           
-          }
-           
+            String request_token = localSettings.Values["request_token"] as String;
+            if (request_token == null)
+            {
+                auth_button.Content = "Configuring, Please wait";
+                cts = new CancellationTokenSource();
+                await generateRequestToken();
+            }
+
             // TODO: Prepare page for display here.
 
             // TODO: If your application contains multiple pages, ensure that you are
@@ -67,5 +66,6 @@ namespace Pocket_Client
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
         }
+
     }
 }
