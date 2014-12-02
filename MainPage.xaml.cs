@@ -32,8 +32,8 @@ namespace Pocket_Client
     public sealed partial class MainPage : Page
     {
 
-        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
-        private readonly ResourceLoader keysLoader = ResourceLoader.GetForCurrentView("Keys");
+        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView(Constants.RESOURCE_FILE);
+        private readonly ResourceLoader keysLoader = ResourceLoader.GetForCurrentView(Constants.KEY_FILE);
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         private CancellationTokenSource cts;
         public MainPage()
@@ -50,7 +50,7 @@ namespace Pocket_Client
         /// This parameter is typically used to configure the page.</param>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            String request_token = localSettings.Values["request_token"] as String;
+            String request_token = localSettings.Values[Constants.REQUEST_TOKEN] as String;
             if (request_token == null)
             {
                 auth_button.Content = "Configuring, Please wait";

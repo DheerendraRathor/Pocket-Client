@@ -16,20 +16,29 @@ namespace Pocket_Client
 
         private async Task generateRequestToken()
         {
-            String url = resourceLoader.GetString("requestTokenURI");
+            String url = resourceLoader.GetString(Constants.REQUEST_TOKEN_URI);
             HttpClient request = new HttpClient();
             Uri uri = new Uri(url);
+
             Dictionary<String, String> postValue = new Dictionary<string, string>();
-            postValue.Add("consumer_key", keysLoader.GetString("consumer_key"));
-            postValue.Add("redirect_uri", "pocket-dsr://getRequestToken");
+            postValue.Add(Constants.CONSUMER_KEY, keysLoader.GetString(Constants.CONSUMER_KEY));
+            postValue.Add(Constants.REDIRECT_URI, Constants.REDIRECT_TO);
             String postData = JsonConvert.SerializeObject(postValue);
+
             HttpStringContent reqMsg = null;
             prepareRequest(ref request, ref reqMsg, postData);
+
             HttpResponseMessage response = await request.PostAsync(uri, reqMsg).AsTask(cts.Token);
             String responseData = await response.Content.ReadAsStringAsync().AsTask(cts.Token);
+
+            HttpStatusCode responseStatus =  response.StatusCode;
+            if (responseStatus == HttpStatusCode.Forbidden)
+            {
+                auth_button.Content = "Oops! Something went wrong";
+            }
             Dictionary<String, String> responseDictionary = JsonConvert.DeserializeObject<Dictionary<String, String>>(responseData);
-            String code = responseDictionary["code"];
-            
+            String code = responseDictionary[Constants.CODE];
+
         }
 
         private void prepareRequest(ref HttpClient httpClient, ref HttpStringContent reqMsg, String postData)
