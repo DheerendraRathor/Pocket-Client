@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Pocket_Client.Common;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641 
 
@@ -35,6 +36,92 @@ namespace Pocket_Client
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+        }
+
+        private async void RestoreStatus(ApplicationExecutionState previousExecutionState)
+        {
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (previousExecutionState == ApplicationExecutionState.Terminated)
+            {
+                // Restore the saved session state only when appropriate
+                try
+                {
+                    await SuspensionManager.RestoreAsync();
+                }
+                catch (SuspensionManagerException)
+                {
+                    //Something went wrong restoring state.
+                    //Assume there is no state and continue
+                }
+            }
+        }
+
+        /// <summary>
+        /// Invoked when Navigation to a certain page fails
+        /// </summary>
+        /// <param name="sender">The Frame which failed navigation</param>
+        /// <param name="e">Details about the navigation failure</param>
+        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+       
+        protected override void OnActivated(IActivatedEventArgs e)
+        {
+            if (e.Kind == ActivationKind.Protocol)
+            {
+                ProtocolActivatedEventArgs eArgs = e as ProtocolActivatedEventArgs;
+                Frame rootFrame = Window.Current.Content as Frame;
+                if (rootFrame == null)
+                {
+                    rootFrame = new Frame();
+                    rootFrame.NavigationFailed += OnNavigationFailed;
+                    SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
+                    Window.Current.Content = rootFrame;
+                }
+
+                RestoreStatus(e.PreviousExecutionState);
+
+                if (rootFrame.Content == null)
+                {
+                    // Removes the turnstile navigation for startup.
+                    if (rootFrame.ContentTransitions != null)
+                    {
+                        this.transitions = new TransitionCollection();
+                        foreach (var c in rootFrame.ContentTransitions)
+                        {
+                            this.transitions.Add(c);
+                        }
+                    }
+
+                    rootFrame.ContentTransitions = null;
+                    rootFrame.Navigated += this.RootFrame_FirstNavigated;
+
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    if (!rootFrame.Navigate(typeof(MainPage)))
+                    {
+                        throw new Exception("Failed to create initial page");
+                    }
+
+                }
+
+                var p = rootFrame.Content as MainPage;
+                String url = eArgs.Uri.ToString();
+                if (url == Constants.REDIRECT_TO.ToLower())
+                {
+                    p.returnFromAuth();
+                    Window.Current.Activate();
+                }
+                else
+                {
+                    throw new Exception("Cannot process this activation");
+                }
+            }
+
         }
 
         /// <summary>
@@ -63,11 +150,9 @@ namespace Pocket_Client
 
                 // TODO: change this value to a cache size that is appropriate for your application
                 rootFrame.CacheSize = 1;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // TODO: Load state from previously suspended application
-                }
+                rootFrame.NavigationFailed += OnNavigationFailed;
+                SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
+                RestoreStatus(e.PreviousExecutionState);
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
@@ -123,7 +208,6 @@ namespace Pocket_Client
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-
             // TODO: Save application state and stop any background activity
             deferral.Complete();
         }

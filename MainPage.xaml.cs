@@ -1,26 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading;
+using Windows.ApplicationModel.Resources;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-//My imports
-using System.Diagnostics;
-using Windows.ApplicationModel.Resources;
-using Windows.Web.Http;
-using Windows.Web.Http.Filters;
-using Windows.Storage;
-using System.Threading;
-using System.Threading.Tasks;
+using Windows.ApplicationModel.Activation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -42,6 +27,13 @@ namespace Pocket_Client
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
+        private ProtocolActivatedEventArgs _protocolEventArgs = null;
+        public ProtocolActivatedEventArgs ProtocolEvent
+        {
+            get { return _protocolEventArgs; }
+            set { _protocolEventArgs = value; }
+        }
+
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -61,27 +53,33 @@ namespace Pocket_Client
             if (request_token == null)
             {
                 auth_button.Content = Constants.CONFIG_MSG;
-                cts = new CancellationTokenSource();
+                cts = new CancellationTokenSource(20000);
                 await generateRequestToken();
+                request_token = localSettings.Values[Constants.REQUEST_TOKEN] as String;
+                if (request_token == null)
+                {
+                    auth_button.Content = "Authentication Failed";
+                    return;
+                }
             }
 
             String access_token = localSettings.Values[Constants.ACCESS_TOKEN] as String;
             if (access_token == null)
             {
-                cts = new CancellationTokenSource();
+                cts = new CancellationTokenSource(20000);
                 auth_button.Content = Constants.AUTH_MSG;
                 auth_button.IsEnabled = true;
                 progressRing.IsActive = false;
             }
+            else
+            {
+                auth_button.Content = "Authenticated";
+                auth_button.IsEnabled = false;
+                progressRing.IsActive = false;
+                //TODO: redirect to List view
+            }
 
         }
-
-
-        protected async void authorization_Permitted(Object sender, RoutedEventArgs e)
-        {
-            await authorizeUser();
-        }
-
 
     }
 }
