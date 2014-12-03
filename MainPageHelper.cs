@@ -8,6 +8,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
 using Newtonsoft.Json;
 using Windows.Storage.Streams;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml;
 
 namespace Pocket_Client
 {
@@ -32,12 +34,26 @@ namespace Pocket_Client
             String responseData = await response.Content.ReadAsStringAsync().AsTask(cts.Token);
 
             HttpStatusCode responseStatus =  response.StatusCode;
-            if (responseStatus == HttpStatusCode.Forbidden)
+
+            if (responseStatus == HttpStatusCode.Ok)
+            {
+                Dictionary<String, String> responseDictionary = JsonConvert.DeserializeObject<Dictionary<String, String>>(responseData);
+                String code = responseDictionary[Constants.CODE];
+                localSettings.Values[Constants.REQUEST_TOKEN] = code;
+                auth_button.Content = "Verifying User, Please wait";
+            }
+            else if (responseStatus == HttpStatusCode.Forbidden)
             {
                 auth_button.Content = "Oops! Something went wrong";
             }
-            Dictionary<String, String> responseDictionary = JsonConvert.DeserializeObject<Dictionary<String, String>>(responseData);
-            String code = responseDictionary[Constants.CODE];
+            else if ((int)responseStatus >= 500 && (int)responseStatus <= 600)
+            {
+                auth_button.Content = "Oops! Something went wrong";
+            }
+            else
+            {
+                auth_button.Content = "Unable to Proceed. Please try again later";
+            }
 
         }
 

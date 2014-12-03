@@ -9,19 +9,17 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" FlyoutBase.AttachedFlyout="{StaticResource flyout}">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Button x:Name="auth_button" Height="60" HorizontalAlignment="Center" Margin="0,300,0,0" VerticalAlignment="Top">
             <Button.IsEnabled>
                 False
             </Button.IsEnabled>
             <Button.Content>
-                Verfying User, Please wait
+                Verifying User, Please wait
             </Button.Content>
         </Button>
         <Image Height="133" Margin="70,127,74,0" VerticalAlignment="Top" HorizontalAlignment="Center" Source="Assets/pocket-logo.png"/>
         <ProgressRing x:Name="progressRing" HorizontalAlignment="Center" Margin="0,452,0,0" VerticalAlignment="Top" Width="160" IsActive="True" Height="77"/>
-        
-        
     </Grid>
 
 </Page>

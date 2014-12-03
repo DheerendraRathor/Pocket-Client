@@ -58,6 +58,12 @@ namespace Pocket_Client
                 await generateRequestToken();
             }
 
+            String access_token = localSettings.Values[Constants.ACCESS_TOKEN] as String;
+            if (access_token == null)
+            {
+
+            }
+
             // TODO: Prepare page for display here.
 
             // TODO: If your application contains multiple pages, ensure that you are
@@ -66,6 +72,7 @@ namespace Pocket_Client
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
         }
+
 
     }
 }
