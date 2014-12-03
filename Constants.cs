@@ -16,7 +16,9 @@ namespace Pocket_Client
         public const String REDIRECT_URI = "redirect_uri";
 
         //URIs
-        public const String REQUEST_TOKEN_URI = "requestTokenURI";
+        public const String REQUEST_TOKEN_URI = "https://getpocket.com/v3/oauth/request";
+        public const String AUTH_URI = "https://getpocket.com/auth/authorize?request_token={0}&redirect_uri={1}";
+        public const String ACCESS_TOKEN_URI = "https://getpocket.com/v3/oauth/authorize";
 
 
         public const String PROTOCOL = "pocket-dsr://";
@@ -24,6 +26,9 @@ namespace Pocket_Client
 
         //Resource Files
         public const String KEY_FILE = "Keys";
-        public const String RESOURCE_FILE = "Resources";
+
+        //User messages
+        public const String CONFIG_MSG = "Configuring, Please wait";
+        public const String AUTH_MSG = "Authorize to Pocket";
     }
 }

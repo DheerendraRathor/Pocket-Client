@@ -18,7 +18,7 @@ namespace Pocket_Client
 
         private async Task generateRequestToken()
         {
-            String url = resourceLoader.GetString(Constants.REQUEST_TOKEN_URI);
+            String url = Constants.REQUEST_TOKEN_URI;
             HttpClient request = new HttpClient();
             Uri uri = new Uri(url);
 
@@ -65,6 +65,12 @@ namespace Pocket_Client
             {
                 MediaType = "application/json"
             };
+        }
+
+        private async Task authorizeUser()
+        {
+            String authURI = String.Format(Constants.AUTH_URI, localSettings.Values[Constants.REQUEST_TOKEN], Constants.REDIRECT_TO);
+            bool redirected = await Windows.System.Launcher.LaunchUriAsync(new Uri(authURI));
         }
     }
 }

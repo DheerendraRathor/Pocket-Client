@@ -32,7 +32,6 @@ namespace Pocket_Client
     public sealed partial class MainPage : Page
     {
 
-        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView(Constants.RESOURCE_FILE);
         private readonly ResourceLoader keysLoader = ResourceLoader.GetForCurrentView(Constants.KEY_FILE);
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         private CancellationTokenSource cts;
@@ -50,20 +49,6 @@ namespace Pocket_Client
         /// This parameter is typically used to configure the page.</param>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            String request_token = localSettings.Values[Constants.REQUEST_TOKEN] as String;
-            if (request_token == null)
-            {
-                auth_button.Content = "Configuring, Please wait";
-                cts = new CancellationTokenSource();
-                await generateRequestToken();
-            }
-
-            String access_token = localSettings.Values[Constants.ACCESS_TOKEN] as String;
-            if (access_token == null)
-            {
-
-            }
-
             // TODO: Prepare page for display here.
 
             // TODO: If your application contains multiple pages, ensure that you are
@@ -71,6 +56,30 @@ namespace Pocket_Client
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
+
+            String request_token = localSettings.Values[Constants.REQUEST_TOKEN] as String;
+            if (request_token == null)
+            {
+                auth_button.Content = Constants.CONFIG_MSG;
+                cts = new CancellationTokenSource();
+                await generateRequestToken();
+            }
+
+            String access_token = localSettings.Values[Constants.ACCESS_TOKEN] as String;
+            if (access_token == null)
+            {
+                cts = new CancellationTokenSource();
+                auth_button.Content = Constants.AUTH_MSG;
+                auth_button.IsEnabled = true;
+                progressRing.IsActive = false;
+            }
+
+        }
+
+
+        protected async void authorization_Permitted(Object sender, RoutedEventArgs e)
+        {
+            await authorizeUser();
         }
 
 
