@@ -27,13 +27,6 @@ namespace Pocket_Client
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
-        private ProtocolActivatedEventArgs _protocolEventArgs = null;
-        public ProtocolActivatedEventArgs ProtocolEvent
-        {
-            get { return _protocolEventArgs; }
-            set { _protocolEventArgs = value; }
-        }
-
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -53,8 +46,10 @@ namespace Pocket_Client
             if (request_token == null)
             {
                 auth_button.Content = Constants.CONFIG_MSG;
-                cts = new CancellationTokenSource(20000);
-                await generateRequestToken();
+                cts = new CancellationTokenSource();
+                Boolean result = await generateRequestToken();
+                if (result == false) 
+                    return;
                 request_token = localSettings.Values[Constants.REQUEST_TOKEN] as String;
                 if (request_token == null)
                 {
@@ -66,19 +61,26 @@ namespace Pocket_Client
             String access_token = localSettings.Values[Constants.ACCESS_TOKEN] as String;
             if (access_token == null)
             {
-                cts = new CancellationTokenSource(20000);
+                cts = new CancellationTokenSource();
                 auth_button.Content = Constants.AUTH_MSG;
                 auth_button.IsEnabled = true;
                 progressRing.IsActive = false;
             }
             else
             {
-                auth_button.Content = "Authenticated";
-                auth_button.IsEnabled = false;
+                auth_button.Content = "Enter to App";
+                auth_button.IsEnabled = true;
                 progressRing.IsActive = false;
-                //TODO: redirect to List view
+                auth_button.Click -= authorization_Permitted;
+                auth_button.Click += Navigate_to_frame;
+                
             }
 
+        }
+
+        private void Navigate_to_frame(Object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Content.PocketList));
         }
 
     }

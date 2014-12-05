@@ -8,6 +8,11 @@ namespace Pocket_Client
 {
     public static class Constants
     {
+
+        //Application specific
+        public const String APP_NAME = "Pocket Client";
+
+
         //pocker constants
         public const String CONSUMER_KEY = "consumer_key";
         public const String REQUEST_TOKEN = "request_token";

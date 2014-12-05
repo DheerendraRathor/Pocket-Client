@@ -10,7 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button 
+        <Button
             x:Name="auth_button" 
             Height="60" 
             HorizontalAlignment="Center" 

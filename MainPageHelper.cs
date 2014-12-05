@@ -18,7 +18,7 @@ namespace Pocket_Client
     public partial class MainPage : Page
     {
 
-        private async Task generateRequestToken()
+        private async Task<Boolean> generateRequestToken()
         {
             String url = Constants.REQUEST_TOKEN_URI;
             HttpClient request = new HttpClient();
@@ -39,10 +39,12 @@ namespace Pocket_Client
                 response = await request.PostAsync(uri, reqMsg).AsTask(cts.Token);
                 responseData = await response.Content.ReadAsStringAsync().AsTask(cts.Token);
             }
-            catch (TaskCanceledException)
+            catch (Exception)
             {
-                auth_button.Content = "Request Timeout. Try again later";
-                return;
+                auth_button.Content = "Can't connect to internet/service";
+                progressRing.IsActive = false;
+                auth_button.IsEnabled = false;
+                return false;
             }
             
 
@@ -58,25 +60,31 @@ namespace Pocket_Client
             else if (responseStatus == HttpStatusCode.Forbidden)
             {
                 auth_button.Content = "Oops! Something went wrong";
+                return false;
             }
             else if ((int)responseStatus >= 500 && (int)responseStatus <= 600)
             {
-                auth_button.Content = "Oops! Something went wrong";
+                auth_button.Content = "Server Side Error";
+                return false;
             }
             else
             {
                 auth_button.Content = "Unable to Proceed. Please try again later";
+                return false;
             }
+
+            return true;
 
         }
 
         private void prepareRequest(ref HttpClient httpClient, ref HttpStringContent reqMsg, String postData)
         {
             httpClient.DefaultRequestHeaders.Add("X-Accept", "application/json");
-            reqMsg = new HttpStringContent(postData, UnicodeEncoding.Utf8);
+            reqMsg = new HttpStringContent(postData);
             reqMsg.Headers.ContentType = new Windows.Web.Http.Headers.HttpMediaTypeHeaderValue("content-type")
             {
-                MediaType = "application/json"
+                MediaType = "application/json",
+                CharSet = UnicodeEncoding.Utf8.ToString()
             };
         }
 
@@ -118,9 +126,11 @@ namespace Pocket_Client
                 response = await request.PostAsync(uri, reqMsg).AsTask(cts.Token);
                 responseData = await response.Content.ReadAsStringAsync().AsTask(cts.Token);
             }
-            catch (TaskCanceledException)
+            catch (Exception)
             {
-                auth_button.Content = "Request Timeout. Try again later";
+                auth_button.Content = "Can't connect to Internet/Service";
+                auth_button.IsEnabled = false;
+                progressRing.IsActive = false;
                 return;
             }
 
