@@ -13,7 +13,7 @@ using Windows.UI.Xaml;
 using Windows.Security.Authentication.Web;
 using System.Threading;
 
-namespace Pocket_Client
+namespace Pocketo
 {
     public partial class MainPage : Page
     {
@@ -142,9 +142,11 @@ namespace Pocket_Client
                 localSettings.Values[Constants.ACCESS_TOKEN] = responseDictionary[Constants.ACCESS_TOKEN];
                 localSettings.Values[Constants.USERNAME] = responseDictionary[Constants.USERNAME];
                 System.Diagnostics.Debug.WriteLine(localSettings.Values[Constants.USERNAME]);
-                auth_button.IsEnabled = false;
-                auth_button.Content = "Authenticated";
+                auth_button.Content = "Enter to App";
+                auth_button.IsEnabled = true;
                 progressRing.IsActive = false;
+                auth_button.Click -= authorization_Permitted;
+                auth_button.Click += Navigate_to_frame;
                 //TODO: redirect to list view
 
             }

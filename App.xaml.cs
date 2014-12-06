@@ -15,11 +15,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Pocket_Client.Common;
+using Pocketo.Common;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641 
 
-namespace Pocket_Client
+namespace Pocketo
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

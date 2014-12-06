@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pocket_Client
+namespace Pocketo
 {
     public static class Constants
     {
 
         //Application specific
-        public const String APP_NAME = "Pocket Client";
+        public const String APP_NAME = "POCKETO";
 
 
         //pocker constants
