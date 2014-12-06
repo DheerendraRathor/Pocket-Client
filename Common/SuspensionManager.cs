@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 //This class is taken from Windows Samples SDKTemaplate.Common
-namespace Pocket_Client.Common
+namespace Pocketo.Common
 {
     /// <summary>
     /// SuspensionManager captures global session state to simplify process lifetime management

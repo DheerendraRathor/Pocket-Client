@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Input;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 
-namespace Pocket_Client.Content
+namespace Pocketo.Content
 {
     public partial class PocketList: Page
     {
@@ -31,22 +31,19 @@ namespace Pocket_Client.Content
         private void ItemList_ManipulationDelta(Object sender, ManipulationDeltaRoutedEventArgs e)
         {
             double currPos = e.Position.X;
-            Thickness margin = ((FrameworkElement)sender).Margin;
-            margin.Left += (currPos  - origin);
+            var fwElement = (FrameworkElement)sender;
+            Thickness margin = fwElement.Margin;
+            margin.Left += (currPos - origin);
             if (margin.Left < marginLeft) margin.Left = marginLeft;
-            ((FrameworkElement)sender).Margin = margin;
-            if (e.IsInertial)
-            {
-                System.Diagnostics.Debug.WriteLine("Yes Inertial");
-                System.Diagnostics.Debug.WriteLine(e.Position.X);
-            }
+            fwElement.Margin = margin; 
             
         }
 
         private void ItemList_ManipulationCompleted(Object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            var velocities = e.Velocities;
-            System.Diagnostics.Debug.WriteLine(velocities.Linear.X);
+            
+
+            
         }
 
     }

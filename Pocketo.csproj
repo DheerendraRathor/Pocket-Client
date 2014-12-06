@@ -7,7 +7,7 @@
     <ProjectGuid>{71F490AC-BFB9-4649-A329-D9973C3894E1}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pocket_Client</RootNamespace>
+    <RootNamespace>Pocketo</RootNamespace>
     <AssemblyName>Pocket Client</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
