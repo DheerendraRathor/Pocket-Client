@@ -11,7 +11,16 @@
         <CommandBar>
             <AppBarButton Icon="Add" Label="Add new"/>
             <AppBarButton Icon="Folder" Label="Archives"/>
-            <AppBarButton Icon="Tag" Label="Tags"/>
+            <AppBarButton Icon="Tag" Label="Tags" RenderTransformOrigin="0.5,0.5">
+                <AppBarButton.RenderTransform>
+                    <CompositeTransform Rotation="-0.12"/>
+                </AppBarButton.RenderTransform>
+            </AppBarButton>
+            <AppBarButton Icon="Favorite" Label="Favourites" RenderTransformOrigin="0.5,0.5">
+                <AppBarButton.RenderTransform>
+                    <CompositeTransform Rotation="-1.805"/>
+                </AppBarButton.RenderTransform>
+            </AppBarButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Name="Settings" Label="Settings"/>
             </CommandBar.SecondaryCommands>

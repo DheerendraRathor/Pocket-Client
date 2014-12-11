@@ -68,6 +68,7 @@ namespace Pocketo
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine(access_token);
                 auth_button.Content = "Enter to App";
                 auth_button.IsEnabled = true;
                 progressRing.IsActive = false;

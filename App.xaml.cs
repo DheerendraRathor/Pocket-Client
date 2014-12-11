@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Pocketo.Common;
+using Windows.Storage;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641 
 
@@ -196,6 +197,11 @@ namespace Pocketo
             var rootFrame = sender as Frame;
             rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
             rootFrame.Navigated -= this.RootFrame_FirstNavigated;
+            var first_fetch = ApplicationData.Current.LocalSettings.Values["first_fetch"];
+            if (first_fetch == null)
+            {
+                ApplicationData.Current.LocalSettings.Values["first_fetch"] = false;
+            }
         }
 
         /// <summary>

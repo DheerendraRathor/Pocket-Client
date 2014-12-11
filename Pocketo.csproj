@@ -82,12 +82,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\Converters.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Content\PocketItem.cs" />
     <Compile Include="Content\PocketList.xaml.cs">
       <DependentUpon>PocketList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Content\PocketListManipulate.cs" />
+    <Compile Include="Content\PocketoListAPI.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

@@ -25,6 +25,7 @@ namespace Pocketo
         public const String REQUEST_TOKEN_URI = "https://getpocket.com/v3/oauth/request";
         public const String AUTH_URI = "https://getpocket.com/auth/authorize?mobile=1&request_token={0}&redirect_uri={1}";
         public const String ACCESS_TOKEN_URI = "https://getpocket.com/v3/oauth/authorize";
+        public const String RETRIEVE_URI = "https://getpocket.com/v3/get";
 
 
         public const String PROTOCOL = "pocket-dsr://";
